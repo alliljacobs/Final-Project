@@ -38,6 +38,10 @@ enemy_rect = pygame.Rect(enemy_x, enemy_y, ENEMY_WIDTH, ENEMY_HEIGHT)
 score = 0
 font = pygame.font.SysFont('Arial', 30)
 
+# Set up the timer
+start_ticks = pygame.time.get_ticks()
+time_limit = 60
+
 # Main game loop
 game_running = True
 while game_running:
@@ -73,6 +77,16 @@ while game_running:
     # Draw the score
     score_text = font.render(f'Score: {score}', True, PINK)
     game_window.blit(score_text, (10, 10))
+
+    # Draw the timer
+    seconds = int((pygame.time.get_ticks() - start_ticks) / 1000)
+    time_left = max(time_limit - seconds, 0)
+    timer_text = font.render(f'Time: {time_left}', True, PINK)
+    game_window.blit(timer_text, (WINDOW_WIDTH - 110, 10))
+
+    # Check if time is up
+    if time_left == 0:
+        game_running = False
 
     # Update the display
     pygame.display.update()
